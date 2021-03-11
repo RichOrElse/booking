@@ -1,0 +1,5 @@
+<h3><%= guest.first_name %> <%= guest.last_name %></h3>
+<%= link_to guest.email, "mailto:#{guest.email}" %><br />
+<% guest.phone_numbers.each do |number| %>
+📱 <%= number %><br />
+<% end %>

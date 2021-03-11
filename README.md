@@ -36,10 +36,9 @@ Then open on your browser [http://localhost:3000](http://localhost:3000)
 ## Demo
 
 Book reservations with different payload formats.
+Copy and paste the following to the payload text area, then click the Submit button.
 
 ### Service Payload Format 1
-
-Copy and paste the following to the text area, then click the Submit button.
 
 ```json
 {
@@ -72,8 +71,6 @@ Copy and paste the following to the text area, then click the Submit button.
 ```
 
 ### Service Payload Format 2
-
-Copy and paste the following to the text area, then click the Submit button.
 
 ```json
 {

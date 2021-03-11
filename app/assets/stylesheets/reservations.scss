@@ -1,0 +1,18 @@
+.column {
+  float: left;
+  width: 50%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.button {
+  color: #bbbbbb;
+  width: 270px;
+  height: 50px;
+  /*add any other properties you want to style*/
+}

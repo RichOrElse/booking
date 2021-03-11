@@ -1,0 +1,79 @@
+<p id="notice"><%= notice %></p>
+
+<div class="row">
+  <div class="column">
+    <h1>Reservation System Payloads</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Stay</th>
+
+          <th>Age groups</th>
+          <th>Status</th>
+
+          <th>Guest</th>
+          <th>Price</th>
+
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @reservations.each do |reservation| %>
+          <tr>
+            <td>
+              <h5><%= reservation.nights %> nights</h5>
+              <%= reservation.start_date %> - <%= reservation.end_date %>
+            </td>
+            <td>
+              <h5><%= reservation.description %></h5>
+              <lul>
+                <li>guests: <%= reservation.number_of_guests %></li>
+                <li>adults: <%= reservation.number_of_adults %></li>
+                <li>children <%= reservation.number_of_children %></li>
+                <li>infants: <%= reservation.number_of_infants %></li> 
+            </td>
+            <td><%= reservation.status %></td>
+            <td><%= render reservation.guest %></td>
+            <td>
+              Payout <%= reservation.payout_price.format %><br />
+              Security <%= reservation.security_price.format %><br />
+              Total <%= reservation.total_price.format %>
+              (<%= reservation.currency %>)
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+  </div>
+  <div class="column">
+    <%= form_tag("/reservations", id: "reservation-form") do %>
+      <%= label_tag(:payload, "Payload") %>
+      <%= text_area_tag(:payload, '', cols: 35, rows: 28) %>
+    <% end %>
+
+  <button onclick="makeReservation()" class="button">Submit</button>
+  </div>
+</div>
+
+<script>
+  async function makeReservation()
+  {
+    const form = document.forms["reservation-form"];
+    const authorization = form["authenticity_token"].value;
+    const payload = form["payload"].value;
+
+    const response = await fetch("/reservations", {
+      method: "POST", 
+      body: payload,
+      headers: {
+        'Content-Type': 'application/json', 'authenticity_token': authorization
+      }
+    }).then(res => {
+      location.reload();
+    });
+
+    return false;
+  }
+</script>
