@@ -14,25 +14,19 @@ module ReservationServicePayload
         .merge!(GuestDetails.parse data[:guest_details])
     end
 
-    class Guest < Struct.new(:guest_id, :guest_email, :guest_first_name, :guest_last_name, :guest_phone_numbers)
-      extend ParseValuesAtMembers
-
+    class Guest < Struct.new(:guest_id, :guest_email, :guest_first_name, :guest_last_name, :guest_phone_numbers).extend ParseValuesAtMembers
       def to_h
         super.transform_keys { |key| key.to_s.sub('guest_', '') }.symbolize_keys
       end
     end
 
-    class GuestDetails < Struct.new(:localized_description, *%i{number_of_adults number_of_children number_of_infants})
-      extend ParseValuesAtMembers
-
+    class GuestDetails < Struct.new(:localized_description, *%i{number_of_adults number_of_children number_of_infants}).extend ParseValuesAtMembers
       def to_h
         super.except!(:localized_description).merge! description: localized_description
       end
     end
 
-    class Prices < Struct.new(:expected_payout_amount, :total_paid_amount_accurate, :listing_security_price_accurate)
-      extend ParseValuesAtMembers
-
+    class Prices < Struct.new(:expected_payout_amount, :total_paid_amount_accurate, :listing_security_price_accurate).extend ParseValuesAtMembers
       def to_h
         {
           payout_price: expected_payout_amount,
