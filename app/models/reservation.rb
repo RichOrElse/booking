@@ -9,9 +9,9 @@ class Reservation < ApplicationRecord
   validates_associated :guest
 
   def book!
-    guest.save if valid? && guest.changed?
-
-    save
+    transaction do
+      save and guest.save_changes!
+    end
   end
 
   def self.booking(guest: {}, **details)
