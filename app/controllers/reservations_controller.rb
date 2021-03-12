@@ -9,7 +9,7 @@ class ReservationsController < ApplicationController
     @reservation = Reservation.booking(**reservation_param)
 
     respond_to do |format|
-       if @reservation.save
+       if @reservation.book!
          format.json { render json: @reservation, status: :created }
        else
          format.json { render json: @reservation.errors, status: :unprocessable_entity }
