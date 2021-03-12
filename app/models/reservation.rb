@@ -8,7 +8,13 @@ class Reservation < ApplicationRecord
   validates :start_date, :end_date, presence: true
   validates_associated :guest
 
-  def self.booking(guest: {}, **details)
-    new(details).with guest: Guest.find_or_new(guest)
+  def guest!
+    guest.save if valid? && guest.changed?
   end
+
+  def self.booking(guest: {}, **details)
+    new(details).with(guest: Guest.find_or_new(guest)).tap(&:guest!)
+  end
+
+  scope :recent, -> { order(created_at: :desc) }
 end

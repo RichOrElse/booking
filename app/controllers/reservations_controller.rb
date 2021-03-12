@@ -2,19 +2,21 @@ class ReservationsController < ApplicationController
   protect_from_forgery with: :null_session
 
   def index
-    @reservations = Reservation.all
+    @reservations = Reservation.recent
   end
 
   def create
-    @reservation = Reservation.booking(**reservation_param)
+    @reservation, @guest = Reservation.booking(**reservation_param)
 
     respond_to do |format|
-      if @reservation.save
-        format.html { render :index, notice: 'Reservation was successfully created.' }
-        format.json { render json: @reservation, status: :created }
-      else
-        format.html { render :index }
-        format.json { render json: @reservation.errors, status: :unprocessable_entity}
+      format.html { redirect_to :root }
+
+      format.json do
+        if @reservation.save
+          render json: @reservation, status: :created
+        else
+          render json: @reservation.errors, status: :unprocessable_entity
+        end
       end
     end
   end
