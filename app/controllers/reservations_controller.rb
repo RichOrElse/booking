@@ -6,11 +6,9 @@ class ReservationsController < ApplicationController
   end
 
   def create
-    @reservation, @guest = Reservation.booking(**reservation_param)
+    @reservation = Reservation.booking(**reservation_param)
 
     respond_to do |format|
-      format.html { redirect_to :root }
-
       format.json do
         if @reservation.save
           render json: @reservation, status: :created
