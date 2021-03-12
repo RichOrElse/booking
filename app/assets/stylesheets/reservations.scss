@@ -21,3 +21,9 @@
   height: 50px;
   /*add any other properties you want to style*/
 }
+
+div.sticky {
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0;
+}
