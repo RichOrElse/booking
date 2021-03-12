@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <div class="row">
-  <div class="column">
+  <div class="left column">
     <h1>Reservation System Payloads</h1>
 
     <table>
@@ -45,9 +45,9 @@
         <% end %>
       </tbody>
     </table>
-
   </div>
-  <div class="column">
+
+  <div class="right column">
     <%= form_tag("/reservations", id: "reservation-form") do %>
       <%= label_tag(:payload, "Payload") %>
       <%= text_area_tag(:payload, '', cols: 35, rows: 28) %>

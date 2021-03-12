@@ -1,6 +1,11 @@
 .column {
   float: left;
-  width: 50%;
+  .left {
+    width: 75%;
+  }
+  .right {
+    width: 25%;
+  }
 }
 
 /* Clear floats after the columns */
