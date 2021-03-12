@@ -48,31 +48,26 @@
   </div>
 
   <div class="right column sticky">
-    <%= form_tag(:reservations, id: "reservation-form") do %>
-      <%= label_tag(:payload, "Payload") %>
-      <%= text_area_tag(:payload, '', cols: 35, rows: 28) %>
-    <% end %>
-
-    <button onclick="makeReservation()" class="button">Submit</button>
+    <%= label_tag :payload %>
+    <%= text_area_tag(:payload, '', cols: 35, rows: 28) %>
+    <br />
+    <button onclick="makeReservation('payload').then(res => location.reload())" class="button">Submit</button>
   </div>
 </div>
 
 <script>
-  const makeReservation = async function()
+  const makeReservation = async function(id)
   {
-    const form = document.forms["reservation-form"];
-    const payload = form["payload"].value;
-
+    const payload = document.getElementById(id).value
+    const token = document.getElementsByName("csrf-token")[0].content;
     const response = await fetch("/reservations", {
       method: "POST", 
       body: payload,
       headers: {
-        "Content-Type": "application/json", "Accept": "application/json"
+        "Content-Type": "application/json", "Accept": "application/json", "X-CSRF-Token": token
       }
-    }).then(res => {
-      location.reload();
     });
-
-    return false;
+    const reservation = await response.json();
+    return reservation;
   }
 </script>
