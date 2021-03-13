@@ -47,7 +47,7 @@ RSpec.describe ReservationServicePayload::Format1, type: :services do
   end
 
   describe '::GuestDetails.parse' do
-    subject { described_class::GuestDetails.parse @payload[:guest_details] }
+    subject { described_class::GuestDetails.parse @payload }
     it { should include age_groups }
   end
 

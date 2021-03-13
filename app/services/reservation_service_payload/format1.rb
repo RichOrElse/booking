@@ -10,8 +10,8 @@ module ReservationServicePayload
       new(data).to_h
         .merge!(Prices.parse data)
         .merge!(Reservation.parse data)
+        .merge!(GuestDetails.parse data)
         .merge!(guest: Guest.parse(data))
-        .merge!(GuestDetails.parse data[:guest_details])
     end
 
     class Guest < Struct.new(:guest_id, :guest_email, :guest_first_name, :guest_last_name, :guest_phone_numbers).extend ParseValuesAtMembers
@@ -20,9 +20,9 @@ module ReservationServicePayload
       end
     end
 
-    class GuestDetails < Struct.new(:localized_description, *%i{number_of_adults number_of_children number_of_infants}).extend ParseValuesAtMembers
+    class GuestDetails < Struct.new(:guest_details).extend ParseValuesAtMembers
       def to_h
-        super.except!(:localized_description).merge! description: localized_description
+        NumberOf.parse(guest_details).merge! description: guest_details[:localized_description]
       end
     end
 
@@ -36,6 +36,7 @@ module ReservationServicePayload
       end
     end
 
+    NumberOf = Struct.new(*%i{number_of_adults number_of_children number_of_infants}).extend ParseValuesAtMembers
     Reservation = Struct.new(*%i{start_date end_date nights number_of_guests}).extend ParseValuesAtMembers
   end
 end
