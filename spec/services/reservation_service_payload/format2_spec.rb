@@ -40,7 +40,7 @@ RSpec.describe ReservationServicePayload::Format2, type: :services do
   end
 
   describe '::Guest.parse' do
-    subject { described_class::Guest.parse @payload[:guest] }
+    subject { described_class::Guest.parse @payload }
     it { should eql guest }
   end
 

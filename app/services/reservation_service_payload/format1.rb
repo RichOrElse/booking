@@ -14,15 +14,15 @@ module ReservationServicePayload
         .merge!(guest: Guest.parse(data))
     end
 
-    class Guest < Struct.new(:guest_id, :guest_email, :guest_first_name, :guest_last_name, :guest_phone_numbers).extend ParseValuesAtMembers
-      def to_h
-        super.transform_keys { |key| key.to_s.sub('guest_', '') }.symbolize_keys
-      end
-    end
-
     class GuestDetails < Struct.new(:guest_details).extend ParseValuesAtMembers
       def to_h
         NumberOf.parse(guest_details).merge! description: guest_details[:localized_description]
+      end
+    end
+
+    class Guest < Struct.new(:guest_id, :guest_email, :guest_first_name, :guest_last_name, :guest_phone_numbers).extend ParseValuesAtMembers
+      def to_h
+        super.transform_keys { |key| key.to_s.sub('guest_', '') }.symbolize_keys
       end
     end
 
